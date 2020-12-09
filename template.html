@@ -1,0 +1,75 @@
+<h3>Monthly Heat Loss Factor</h3>
+
+<p>Use this page to assemble the required monitoring data to work out the heat loss factor of your building. This is calculated as the sum of all heat gains into the building divided by the difference between the internal and external temperature. Heat gains include: Heat from the heating system, electricity consumed by lighting, appliances and cooking (with any electricity consumed outside of the building e.g EV charging or an outside workshop subtracted). We also need to estimate gains from body heat and solar gains entering the building.</p>
+
+<button class=btn id="toggle_units">Toggle units</button>
+<br><br>
+
+<table class="table table-bordered">
+<tr>
+  <th></th>
+  <th></th>
+  <th>Jan</th>
+  <th>Feb</th>
+  <th>Mar</th>
+  <th>Apr</th>
+  <th>May</th>
+  <th>Jun</th>
+  <th>Jul</th>
+  <th>Aug</th>
+  <th>Sep</th>
+  <th>Oct</th>
+  <th>Nov</th>
+  <th>Dec</th>
+</tr>
+{{#each config}}
+  <tr>
+    <th>{{@key}}</th>
+    <th>{{option}}</th>
+    {{#times 12}}<th></th>{{/times}}
+  </tr>
+  
+  {{#each feeds}}
+  <tr>
+    <td> 
+      <select>
+        <option>Select feed</option>
+      {{#each ../../feeds_by_tag as | group |}}
+        <optgroup label='{{@key}}'>
+        {{#each group}}<option {{#ifeq id ../../feedid }} selected {{/ifeq}}>{{name}}</option>{{/each}}
+        </optgroup>
+      {{/each}}
+      </select>
+      {{#if @index}}<i class="delete-feed icon-trash"></i>{{/if}}
+    </td>
+    <th>{{#if ../option}}<input type="text" value="{{lookup this ../option}}"/>{{/if}}</th>
+    {{#each data as | month |}}
+    <td title="Quality: {{month.[1]}}%" class="{{#quality month.[1]}}{{/quality}}">
+      {{toFixed month.[0] 1}} {{#if month.[0]}}<span class='units'>{{../units}}</span>{{/if}}
+    </td>
+    {{/each}}
+  </tr>
+  {{/each}}
+
+  {{#each manual}}
+  <tr>
+    <td>{{name}}</td>
+    <th>{{#if ../option}}<input type="text" value="{{lookup this ../option}}"/>{{/if}}</th>
+    {{#each data}}
+    <td><input type="text" value="{{this}}"/> {{#if this}}<span class='units'>{{../units}}</span>{{/if}}</td>
+    {{/each}}
+  </tr>
+  {{/each}}
+  
+  {{#each calculated}}
+  <tr>
+    <td>{{name}}</td>
+    <th></th>
+    {{#each data}}
+    <td>{{toFixed this 1}} {{#if this}}<span class='units'>{{../units}}</span>{{/if}}</td>
+    {{/each}}
+  </tr>
+  {{/each}}
+  
+{{/each}}
+</table>

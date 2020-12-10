@@ -1,7 +1,7 @@
 start = 1577836800000
 end = 1612137600000
 
-//localStorage.removeItem("config");
+// localStorage.removeItem("config");
 var config = JSON.parse(localStorage.getItem("config"))
 
 if (config==null) {
@@ -61,98 +61,13 @@ if (config==null) {
 // ---------------------------------------------------------------------
 // Init data
 // ---------------------------------------------------------------------
-var now = get_time();
-
-var feedids = [];
-for (var cat in config) {
-    for (var i in config[cat].feeds) {
-        var feed = config[cat].feeds[i];
-        
-        // Create blank feed data entry
-        if (feed.data==undefined) {
-            config[cat].feeds[i].data = []
-            for (var m=0; m<12; m++) config[cat].feeds[i].data[m] = [0,0]
-            config[cat].feeds[i].last_update = 0
-        }
-        
-        // Register feeds for reload
-        if ((now-feed.last_update)>(3600*24)) {
-            config[cat].feeds[i].last_update = now
-            feedids.push(feed.feedid)
-        }
-    }
-    
-    // Calculated entry
-    for (var i in config[cat].calculated) {
-        config[cat].calculated[i].data = []
-    }
-    
-    // Set manual entry
-    for (var i in config[cat].manual) {
-        config[cat].manual[i].data = []
-        for (var m=0; m<12; m++) config[cat].manual[i].data[m] = config[cat].manual[i].value
-    } 
-}
-
-// ---------------------------------------------------------------------
-// Calculation
-// ---------------------------------------------------------------------
-for (var m=0; m<12; m++) {
-    // Calculate Mean Internal Temperature
-    var sum = 0;
-    var sum_weight = 0;
-    var n = 0;
-    for (var i in config["Internal Temperatures"].feeds) {
-        let value = config["Internal Temperatures"].feeds[i].data[m][0]
-        if (value!=null) {
-            let weight = config["Internal Temperatures"].feeds[i].weight
-            sum += value * weight
-            sum_weight += weight
-        }
-    }
-    var mean_internal_temperature = null;
-    if (sum_weight>0) mean_internal_temperature = sum / sum_weight;
-    
-    var outside = config["External Temperatures"].feeds[0].data[m][0]
-    var deltaT = null
-    if (mean_internal_temperature!=null && outside!=null) {
-        deltaT = mean_internal_temperature - outside
-    }
-    
-    let space_heat = config["Space heat"].feeds[0].data[m][0]
-    let dhw_gains = null
-    if (config["Hot water heat"].feeds[0].data[m][0]!=null) {
-        dhw_gains = config["Hot water heat"].feeds[0].data[m][0]*config["Hot water heat"].feeds[0].util
-    }
-    let lac = config["Lighting, Appliances & Cooking"].feeds[0].data[m][0]
-    let solar_gains = null
-    if (config["Solar gains"].feeds[0].data[m][0]!=null) {
-        solar_gains = config["Solar gains"].feeds[0].data[m][0]*config["Solar gains"].feeds[0].scale
-    }
-    let metabolic = config["Other gains"].manual[0].data[m]
-    let other_gains = config["Other gains"].manual[1].data[m]
-        
-    var total_heat = null
-    if (space_heat!=null && lac!=null && solar_gains!=null) {
-       total_heat = space_heat + dhw_gains + lac + solar_gains + metabolic + other_gains
-    }
-    
-    let heat_loss_factor = null;
-    if (total_heat!=null && deltaT!=null) {
-        heat_loss_factor = total_heat / deltaT
-    }
-    
-    config["Internal Temperatures"].calculated["MIT"].data[m] = mean_internal_temperature
-    config["Hot water heat"].calculated["dhw_gains"].data[m] = dhw_gains
-    config["Solar gains"].calculated["solar_gains"].data[m] = solar_gains
-    config["Heat Loss Factor Calculation"].calculated["Delta T"].data[m] = deltaT  
-    config["Heat Loss Factor Calculation"].calculated["Heat"].data[m] = total_heat
-    config["Heat Loss Factor Calculation"].calculated["Heat Loss Factor"].data[m] = heat_loss_factor
-}
 
 var feeds = []
 var feeds_by_id = {}
 var feeds_by_tag = {}
+
+init();
+calculate();
 
 load_feed_lists(function(){
     load_template(function(){
@@ -160,28 +75,143 @@ load_feed_lists(function(){
     });
 });
 
-if (feedids.length>0) {
-    get_average(feedids,start,end,'monthly',function(result){
-        console.log(result)
-        
-        for (var z in result) {
-        
-            var monthly = []
-            for (var m=0; m<12; m++) {
-                monthly.push([
-                    result[z].data[m][1],
-                    result[z].data[m][2]
-                ])
+load_feed_data();
+
+// ---------------------------------------------------------------------
+// Init config
+// ---------------------------------------------------------------------
+function init() {
+    var now = get_time();
+
+    feedids = [];
+    for (var cat in config) {
+        for (var i in config[cat].feeds) {
+            var feed = config[cat].feeds[i];
+            
+            // Create blank feed data entry
+            if (feed.data==undefined) {
+                config[cat].feeds[i].data = []
+                for (var m=0; m<12; m++) config[cat].feeds[i].data[m] = [0,0]
+                config[cat].feeds[i].last_update = 0
             }
-            set_feed_data(result[z].feedid,monthly)
+            
+            // Register feeds for reload
+            if ((now-feed.last_update)>(3600*24)) {
+                config[cat].feeds[i].last_update = now
+                feedids.push(feed.feedid)
+            }
         }
-        localStorage.setItem("config", JSON.stringify(config));
-        $("#sap_compare").html(template({config:config,feeds_by_tag:feeds_by_tag}));
-    });
+        
+        // Calculated entry
+        for (var i in config[cat].calculated) {
+            config[cat].calculated[i].data = []
+        }
+        
+        // Set manual entry
+        for (var i in config[cat].manual) {
+            config[cat].manual[i].data = []
+            for (var m=0; m<12; m++) config[cat].manual[i].data[m] = config[cat].manual[i].value
+        } 
+    }
+    
 }
 
-// -----------------------------------------------------------------------
+// ---------------------------------------------------------------------
+// Calculation
+// ---------------------------------------------------------------------
+function calculate() {
 
+    for (var m=0; m<12; m++) {
+        // Calculate Mean Internal Temperature
+        var sum = 0;
+        var sum_weight = 0;
+        var n = 0;
+        for (var i in config["Internal Temperatures"].feeds) {
+            let value = config["Internal Temperatures"].feeds[i].data[m][0]
+            if (value!=null) {
+                let weight = config["Internal Temperatures"].feeds[i].weight
+                sum += value * weight
+                sum_weight += weight
+            }
+        }
+        let mean_internal_temperature = null;
+        if (sum_weight>0) mean_internal_temperature = sum / sum_weight;
+        
+        // Load in feed values for month
+        let outside = config["External Temperatures"].feeds[0].data[m][0]
+        let space_heat = config["Space heat"].feeds[0].data[m][0]
+        let dhw_heat = config["Hot water heat"].feeds[0].data[m][0]
+        let lac = config["Lighting, Appliances & Cooking"].feeds[0].data[m][0]
+        let solar_proxy = config["Solar gains"].feeds[0].data[m][0]
+        let metabolic = config["Other gains"].manual[0].data[m]
+        let other_gains = config["Other gains"].manual[1].data[m]
+        
+        // Perform calculations
+        var deltaT = null
+        if (mean_internal_temperature!=null && outside!=null) {
+            deltaT = mean_internal_temperature - outside
+        }
+
+        // Calculate dhw gains as dhw heat x utlilisation factor
+        let dhw_gains = null
+        if (dhw_heat!=null) {
+            dhw_gains = dhw_heat*config["Hot water heat"].feeds[0].util
+        }
+
+        // Calculate solar gains as solar proxy x scaling factor
+        let solar_gains = null
+        if (solar_proxy!=null) {
+            solar_gains = solar_proxy*config["Solar gains"].feeds[0].scale
+        }
+     
+        // Sum of all heat sources
+        var total_heat = null
+        if (space_heat!=null && lac!=null && solar_gains!=null) {
+           total_heat = space_heat + dhw_gains + lac + solar_gains + metabolic + other_gains
+        }
+        
+        // Heat loss factor
+        let heat_loss_factor = null;
+        if (total_heat!=null && deltaT!=null) {
+            heat_loss_factor = total_heat / deltaT
+        }
+        
+        // Set back in main config obj
+        config["Internal Temperatures"].calculated["MIT"].data[m] = mean_internal_temperature
+        config["Hot water heat"].calculated["dhw_gains"].data[m] = dhw_gains
+        config["Solar gains"].calculated["solar_gains"].data[m] = solar_gains
+        config["Heat Loss Factor Calculation"].calculated["Delta T"].data[m] = deltaT  
+        config["Heat Loss Factor Calculation"].calculated["Heat"].data[m] = total_heat
+        config["Heat Loss Factor Calculation"].calculated["Heat Loss Factor"].data[m] = heat_loss_factor
+    }
+}
+
+function load_feed_data() {
+    if (feedids.length>0) {
+        get_average(feedids,start,end,'monthly',function(result){
+            
+            for (var z in result) {
+            
+                var monthly = []
+                for (var m=0; m<12; m++) {
+                    monthly.push([
+                        result[z].data[m][1],
+                        result[z].data[m][2]
+                    ])
+                }
+                set_feed_data(result[z].feedid,monthly)
+            }
+            calculate();
+            
+            localStorage.setItem("config", JSON.stringify(config));
+            $("#sap_compare").html(template({config:config,feeds_by_tag:feeds_by_tag}));
+        });
+    }
+}
+
+// ---------------------------------------------------------------------
+// 
+// ---------------------------------------------------------------------
 function set_feed_data(feedid,data) {
     for (var cat in config) {
         for (var i in config[cat].feeds) {

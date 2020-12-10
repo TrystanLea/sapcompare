@@ -18,7 +18,7 @@ if (config==null) {
                 {name:"Kitchen Temperature", feedid:165088, units:"°C", weight:1.0},
             ],
             calculated:{
-                "MIT":{name:"Mean Internal Temperature", units:"°C",data:[]}
+                "MIT":{name:"Mean Internal Temperature", units:"°C"}
             }
         },
         "Space heat": {
@@ -28,7 +28,7 @@ if (config==null) {
             option: "util",
             feeds: [{name:"DHW heat", feedid:165263, units:"W", util:0.5}],
             calculated:{
-                "dhw_gains":{name:"Gains from hot water", units:"W",data:[]}
+                "dhw_gains":{name:"Gains from hot water", units:"W"}
             }
         },    
         "Lighting, Appliances & Cooking": {
@@ -38,7 +38,7 @@ if (config==null) {
             option: "scale",
             feeds: [{name:"solarpv", feedid:165203, units:"W", scale:3.0}],
             calculated:{
-                "solar_gains":{name:"Solar gains", units:"W",data:[]}
+                "solar_gains":{name:"Solar gains", units:"W"}
             }
         },
         "Other gains": {
@@ -50,14 +50,17 @@ if (config==null) {
         },
         "Heat Loss Factor Calculation": {
             calculated:{
-                "Heat":{name:"Total heat input", units:"W",data:[]},
-                "Delta T":{name:"Delta T", units:"°K",data:[]},
-                "Heat Loss Factor":{name:"Heat Loss Factor", units:"W/K",data:[]}
+                "Heat":{name:"Total heat input", units:"W"},
+                "Delta T":{name:"Delta T", units:"°K"},
+                "Heat Loss Factor":{name:"Heat Loss Factor", units:"W/K"}
             }
         }
     }
 }
 
+// ---------------------------------------------------------------------
+// Init data
+// ---------------------------------------------------------------------
 var now = get_time();
 
 var feedids = [];
@@ -65,24 +68,35 @@ for (var cat in config) {
     for (var i in config[cat].feeds) {
         var feed = config[cat].feeds[i];
         
+        // Create blank feed data entry
         if (feed.data==undefined) {
             config[cat].feeds[i].data = []
             for (var m=0; m<12; m++) config[cat].feeds[i].data[m] = [0,0]
             config[cat].feeds[i].last_update = 0
         }
         
+        // Register feeds for reload
         if ((now-feed.last_update)>(3600*24)) {
             config[cat].feeds[i].last_update = now
             feedids.push(feed.feedid)
         }
     }
     
+    // Calculated entry
+    for (var i in config[cat].calculated) {
+        config[cat].calculated[i].data = []
+    }
+    
+    // Set manual entry
     for (var i in config[cat].manual) {
         config[cat].manual[i].data = []
         for (var m=0; m<12; m++) config[cat].manual[i].data[m] = config[cat].manual[i].value
     } 
 }
 
+// ---------------------------------------------------------------------
+// Calculation
+// ---------------------------------------------------------------------
 for (var m=0; m<12; m++) {
     // Calculate Mean Internal Temperature
     var sum = 0;
@@ -145,9 +159,6 @@ load_feed_lists(function(){
         $("#sap_compare").html(template({config:config,feeds_by_tag:feeds_by_tag}));
     });
 });
-
-// Load template
-
 
 if (feedids.length>0) {
     get_average(feedids,start,end,'monthly',function(result){

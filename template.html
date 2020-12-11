@@ -24,25 +24,29 @@
 </tr>
 {{#each config}}
   <tr>
-    <th>{{@key}}</th>
+    <th>{{@key}} {{#if multiple}}<button cat="{{@key}}" class="btn add-feed" style="float:right"><i class="icon-plus" style="margin-top:-0px"></i></button>{{/if}}</th>
     <th>{{option}}</th>
     {{#times 12}}<th></th>{{/times}}
   </tr>
   
   {{#each feeds}}
-  <tr>
+  <tr cat="{{@../key}}" index="{{@index}}">
     <td> 
-      <select>
-        <option>Select feed</option>
+      <select class="feed-select">
+        {{#if feedid}}
+        <option value=-1>Unselect feed</option>
+        {{else}}
+        <option value=-1>Select feed</option> 
+        {{/if}}
       {{#each ../../feeds_by_tag as | group |}}
         <optgroup label='{{@key}}'>
-        {{#each group}}<option {{#ifeq id ../../feedid }} selected {{/ifeq}}>{{name}}</option>{{/each}}
+        {{#each group}}<option value="{{id}}" {{#ifeq id ../../feedid }} selected {{/ifeq}}>{{name}}</option>{{/each}}
         </optgroup>
       {{/each}}
       </select>
       {{#if @index}}<i class="delete-feed icon-trash"></i>{{/if}}
     </td>
-    <th>{{#if ../option}}<input type="text" value="{{lookup this ../option}}"/>{{/if}}</th>
+    <th>{{#if ../option}}<input class="option" type="text" value="{{lookup this ../option}}"/>{{/if}}</th>
     {{#each data as | month |}}
     <td title="Quality: {{month.[1]}}%" class="{{#quality month.[1]}}{{/quality}}">
       {{toFixed month.[0] 1}} {{#if month.[0]}}<span class='units'>{{../units}}</span>{{/if}}
@@ -52,9 +56,9 @@
   {{/each}}
 
   {{#each manual}}
-  <tr>
+  <tr cat="{{@../key}}" index="{{@index}}">
     <td>{{name}}</td>
-    <th>{{#if ../option}}<input type="text" value="{{lookup this ../option}}"/>{{/if}}</th>
+    <th>{{#if ../option}}<input class="option" type="text" value="{{lookup this ../option}}"/>{{/if}}</th>
     {{#each data}}
     <td><input type="text" value="{{this}}"/> {{#if this}}<span class='units'>{{../units}}</span>{{/if}}</td>
     {{/each}}

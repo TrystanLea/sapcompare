@@ -1,42 +1,40 @@
 start = 1577836800000
 end = 1612137600000
 
-// localStorage.removeItem("config");
+//localStorage.removeItem("config");
 var config = JSON.parse(localStorage.getItem("config"))
 
 if (config==null) {
     config = {
         "External Temperatures": {
-            feeds: [{name:"Heatpump Ambient", feedid:165140, units:"°C", weight:1.0}]
+            feeds: [{feedid:0, units:"°C", weight:1.0}]
         },
         "Internal Temperatures": {
             option: "weight",
+            multiple: true,
             feeds: [
-                {name:"Diningroom Temperature", feedid:165195, units:"°C", weight:1.0},
-                {name:"Bed1 Temperature", feedid:165134, units:"°C", weight:1.0},
-                {name:"Bed2 Temperature", feedid:165136, units:"°C", weight:1.0},
-                {name:"Kitchen Temperature", feedid:165088, units:"°C", weight:1.0},
+                {feedid:0, units:"°C", weight:1.0}
             ],
             calculated:{
                 "MIT":{name:"Mean Internal Temperature", units:"°C"}
             }
         },
         "Space heat": {
-            feeds: [{name:"Space heating heat", feedid:165261, units:"W"}]
+            feeds: [{feedid:0, units:"W"}]
         },
         "Hot water heat": {
             option: "util",
-            feeds: [{name:"DHW heat", feedid:165263, units:"W", util:0.5}],
+            feeds: [{feedid:0, units:"W", util:0.5}],
             calculated:{
                 "dhw_gains":{name:"Gains from hot water", units:"W"}
             }
         },    
         "Lighting, Appliances & Cooking": {
-            feeds: [{name:"lac", feedid:165272, units:"W"}]
+            feeds: [{feedid:0, units:"W"}]
         },
         "Solar gains": {
             option: "scale",
-            feeds: [{name:"solarpv", feedid:165203, units:"W", scale:3.0}],
+            feeds: [{feedid:0, units:"W", scale:3.0}],
             calculated:{
                 "solar_gains":{name:"Solar gains", units:"W"}
             }
@@ -45,7 +43,7 @@ if (config==null) {
             option: "value",
             manual: [
                 {name:"Metabolic", units:"W", value:120},
-                {name:"Other", units:"W", value:10}
+                {name:"Other", units:"W", value:0}
             ]
         },
         "Heat Loss Factor Calculation": {
@@ -58,10 +56,6 @@ if (config==null) {
     }
 }
 
-// ---------------------------------------------------------------------
-// Init data
-// ---------------------------------------------------------------------
-
 var feeds = []
 var feeds_by_id = {}
 var feeds_by_tag = {}
@@ -71,7 +65,7 @@ calculate();
 
 load_feed_lists(function(){
     load_template(function(){
-        $("#sap_compare").html(template({config:config,feeds_by_tag:feeds_by_tag}));
+        draw();
     });
 });
 
@@ -91,12 +85,12 @@ function init() {
             // Create blank feed data entry
             if (feed.data==undefined) {
                 config[cat].feeds[i].data = []
-                for (var m=0; m<12; m++) config[cat].feeds[i].data[m] = [0,0]
+                for (var m=0; m<12; m++) config[cat].feeds[i].data[m] = [null,0]
                 config[cat].feeds[i].last_update = 0
             }
             
             // Register feeds for reload
-            if ((now-feed.last_update)>(3600*24)) {
+            if (feed.feedid>0 && (now-feed.last_update)>(3600*24)) {
                 config[cat].feeds[i].last_update = now
                 feedids.push(feed.feedid)
             }
@@ -202,9 +196,8 @@ function load_feed_data() {
                 set_feed_data(result[z].feedid,monthly)
             }
             calculate();
-            
-            localStorage.setItem("config", JSON.stringify(config));
-            $("#sap_compare").html(template({config:config,feeds_by_tag:feeds_by_tag}));
+            save();
+            draw();
         });
     }
 }
@@ -271,6 +264,14 @@ function get_average(feedids,start,end,interval,callback){
     });
 }
 
+function save() {
+    localStorage.setItem("config", JSON.stringify(config));
+}
+
+function draw() {
+    $("#sap_compare").html(template({config:config,feeds_by_tag:feeds_by_tag}));
+}
+
 function get_time() {
     return (new Date()).getTime()*0.001;
 }
@@ -278,6 +279,70 @@ function get_time() {
 $("#sap_compare").on("click","#toggle_units",function(){
     $(".units").toggle();
 });
+
+$("#sap_compare").on("change",".feed-select",function(){    
+    var cat = $(this).parent().parent().attr("cat")
+    var index = $(this).parent().parent().attr("index")
+    var feedid = parseInt($(this).val())
+    
+    if (feedid>0 && feedid!=config[cat].feeds[index].feedid) {
+        config[cat].feeds[index].feedid = feedid
+        feedids = [feedid]
+        load_feed_data()
+    }
+    
+    if (feedid==-1) {
+        config[cat].feeds[index].feedid = 0
+        for (var m=0; m<12; m++) config[cat].feeds[index].data[m] = [null,0]
+        config[cat].feeds[index].last_update = 0
+        calculate(); save(); draw();
+    }
+});
+
+$("#sap_compare").on("click",".add-feed",function(){
+    var cat = $(this).attr("cat")
+    
+    if (config[cat].multiple) {
+        var last = config[cat].feeds[config[cat].feeds.length-1]
+        config[cat].feeds.push(JSON.parse(JSON.stringify(last)))
+        
+        calculate();
+        save();
+        draw();
+    }
+});
+
+$("#sap_compare").on("click",".delete-feed",function(){
+    var cat = $(this).parent().parent().attr("cat")
+    var index = $(this).parent().parent().attr("index")
+
+    if (index>0) {
+        config[cat].feeds.splice(index,1)
+        calculate();
+        save();
+        draw();
+    }
+});
+
+$("#sap_compare").on("change",".option",function(){
+    var cat = $(this).parent().parent().attr("cat")
+    var index = $(this).parent().parent().attr("index")
+    var value = parseFloat($(this).val())
+    var option = config[cat].option
+    
+    if (config[cat].feeds!=undefined) {
+        config[cat].feeds[index][option] = value
+    }
+    if (config[cat].manual!=undefined) {
+        config[cat].manual[index][option] = value
+        for (var m=0; m<12; m++) config[cat].manual[index].data[m] = value
+    }    
+    
+    calculate();
+    save();
+    draw();
+});
+
 
 Handlebars.registerHelper('ifeq', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);

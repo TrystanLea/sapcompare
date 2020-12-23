@@ -1,5 +1,14 @@
-<?php global $path; $v=1; ?>
+<?php 
+  global $path;
+  $v=1; 
+  $openBEM_version = "10.1.0";
+?>
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+<script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/gh/carboncoop/openBEM@<?php echo $openBEM_version; ?>/datasets.js"></script>
+<script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/gh/carboncoop/openBEM@<?php echo $openBEM_version; ?>/openBEM.js"></script>
+
+<script type="text/javascript" src="<?php echo $path;?>Modules/sapcompare/midterrace.js"></script>
 
 <style>
 .units {color:#888;}

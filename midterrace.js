@@ -1,0 +1,811 @@
+var midterrace = {
+    "region": 13,
+    "altitude": 114,
+    "use_custom_occupancy": 1,
+    "custom_occupancy": 2,
+    "floors": [
+        {
+            "name": "Ground Floor",
+            "area": 39.6,
+            "height": 2.42
+        },
+        {
+            "name": "1st Floor",
+            "area": 37.2,
+            "height": 2.42
+        }
+    ],
+    "locked": false,
+    "fabric": {
+        "thermal_bridging_yvalue": 0.15,
+        "global_TMP": 1,
+        "global_TMP_value": 450,
+        "elements": [
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 3.36,
+                "h": 2.4,
+                "uvalue": 1.7,
+                "id": 1,
+                "location": "E1:South:Livingroom",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 6.81,
+                "h": 2.4,
+                "uvalue": 0,
+                "id": 2,
+                "location": "E2:West",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 1.6,
+                "h": 2.4,
+                "uvalue": 1.7,
+                "id": 3,
+                "location": "E3:North:Livingroom",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": "1",
+                "l": 1.76,
+                "h": 1.63,
+                "uvalue": 3.1,
+                "id": 4,
+                "location": "W1",
+                "description": "",
+                "kvalue": "",
+                "orientation": 4,
+                "overshading": 3,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 3,
+                "l": 1,
+                "h": 1.5,
+                "uvalue": 3.1,
+                "id": 5,
+                "location": "W2",
+                "description": "",
+                "kvalue": "",
+                "orientation": 0,
+                "overshading": 1,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Floor",
+                "name": "Existing insulated solid floor ",
+                "lib": "FLIS1",
+                "l": 0,
+                "h": 0,
+                "perimeter": 6.8,
+                "area": 24.4,
+                "uvalue": 0.38,
+                "id": 6,
+                "location": "Livingroom",
+                "description": "",
+                "kvalue": 110
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 3.02,
+                "h": 2.45,
+                "uvalue": 1.7,
+                "id": 7,
+                "location": "E4:West:Kitchen",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 7,
+                "l": 0.91,
+                "h": 1.3,
+                "uvalue": 3.1,
+                "id": 8,
+                "location": "W3",
+                "description": "",
+                "kvalue": "",
+                "orientation": 2,
+                "overshading": 1,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Floor",
+                "name": "Uninsulated Solid Ground Floor",
+                "lib": "FLUS1",
+                "l": 0,
+                "h": 0,
+                "perimeter": 5.42,
+                "area": 7.248,
+                "uvalue": 0.9,
+                "id": 9,
+                "location": "Kitchen",
+                "description": "",
+                "kvalue": 110
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 2.4,
+                "h": 2.45,
+                "uvalue": 1.7,
+                "id": 10,
+                "location": "E5:North:Kitchen",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 1,
+                "h": 2.45,
+                "uvalue": 1.7,
+                "id": 11,
+                "location": "E8:South:Hall",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 3.02,
+                "h": 2.45,
+                "uvalue": 0,
+                "id": 12,
+                "location": "E6:East",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Floor",
+                "name": "Uninsulated Solid Ground Floor",
+                "lib": "FLUS1",
+                "l": 0,
+                "h": 0,
+                "perimeter": 7.92,
+                "area": 7.92,
+                "uvalue": 0.9,
+                "id": 14,
+                "location": "Hall",
+                "description": "",
+                "kvalue": 110
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 21,
+                "l": 0.79,
+                "h": 1.4,
+                "uvalue": 3.1,
+                "id": 15,
+                "location": "W4",
+                "description": "",
+                "kvalue": "",
+                "orientation": 4,
+                "overshading": 3,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 17,
+                "l": 0.9,
+                "h": 1.35,
+                "uvalue": 3.1,
+                "id": 16,
+                "location": "W5",
+                "description": "",
+                "kvalue": "",
+                "orientation": 4,
+                "overshading": 3,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 2.6,
+                "h": 2.42,
+                "uvalue": 1.7,
+                "id": 17,
+                "location": "E9:South:Bed2",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 1.6,
+                "h": 2.42,
+                "uvalue": 1.7,
+                "id": 18,
+                "location": "E12:North:Bed1",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 3.3,
+                "h": 2.42,
+                "uvalue": 1.7,
+                "id": 19,
+                "location": "E13:West:Bathroom",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 2.39,
+                "h": 2.42,
+                "uvalue": 1.7,
+                "id": 20,
+                "location": "E14:North:Bathroom",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Wall",
+                "name": "Stone 550mm",
+                "lib": "SW1",
+                "l": 1.82,
+                "h": 2.42,
+                "uvalue": 1.7,
+                "id": 21,
+                "location": "E18:South:Study",
+                "description": "Cement render, stone wall, plaster on hard. Estimated mean U-value.",
+                "kvalue": 150
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 7.92,
+                "h": 2.45,
+                "uvalue": 0,
+                "id": 22,
+                "location": "E7:East",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 3.17,
+                "h": 2.42,
+                "uvalue": 0,
+                "id": 23,
+                "location": "E10:West",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 18,
+                "l": 0.9,
+                "h": 1.3,
+                "uvalue": 3.1,
+                "id": 24,
+                "location": "W6",
+                "description": "",
+                "kvalue": "",
+                "orientation": 0,
+                "overshading": 2,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 18,
+                "l": 0.84,
+                "h": 0.89,
+                "uvalue": 3.1,
+                "id": 25,
+                "location": "W7",
+                "description": "",
+                "kvalue": "",
+                "orientation": 0,
+                "overshading": 2,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 7,
+                "l": 0.9,
+                "h": 1.9,
+                "uvalue": 3.1,
+                "id": 26,
+                "location": "D1",
+                "description": "",
+                "kvalue": "",
+                "orientation": 2,
+                "overshading": 1,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Window",
+                "name": "Double glazed 6mm, air-filled, timber or PVC",
+                "lib": "W3",
+                "subtractfrom": 11,
+                "l": 0.9,
+                "h": 1.9,
+                "uvalue": 3.1,
+                "id": 27,
+                "location": "D2",
+                "description": "",
+                "kvalue": "",
+                "orientation": 4,
+                "overshading": 3,
+                "g": "0.76",
+                "gL": "0.8",
+                "ff": "0.7"
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 3.48,
+                "h": 2.42,
+                "uvalue": 0,
+                "id": 30,
+                "location": "E11:West",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 3.3,
+                "h": 2.42,
+                "uvalue": 0,
+                "id": 31,
+                "location": "E15:East",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 4.4,
+                "h": 2.42,
+                "uvalue": 0,
+                "id": 32,
+                "location": "E16:East",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Party_wall",
+                "name": "Stone 550mm",
+                "lib": "PW2",
+                "l": 2.24,
+                "h": 2.42,
+                "uvalue": 0,
+                "id": 33,
+                "location": "E17:East",
+                "description": "Stone wall 550mm, plastered both sides",
+                "kvalue": 150
+            },
+            {
+                "type": "Loft",
+                "name": "Insulated loft 200mm",
+                "lib": "LR200",
+                "l": 6.8,
+                "h": 4.4,
+                "uvalue": 0.18,
+                "id": 34,
+                "location": "Main Loft",
+                "description": "Slates or tiles, sarking felt, ventilated air space, insulation between joists, 9.5 mm plasterboard",
+                "kvalue": 9
+            },
+            {
+                "type": "Loft",
+                "name": "Insulated loft 200mm",
+                "lib": "LR200",
+                "l": 3.3,
+                "h": 2.4,
+                "uvalue": 0.18,
+                "id": 35,
+                "location": "Bathroom Loft",
+                "description": "Slates or tiles, sarking felt, ventilated air space, insulation between joists, 9.5 mm plasterboard",
+                "kvalue": 9
+            }
+        ]
+    },
+    "ventilation": {
+        "air_permeability_test": false,
+        "air_permeability_value": 0,
+        "dwelling_construction": "masonry",
+        "suspended_wooden_floor": 0,
+        "draught_lobby": 1,
+        "percentage_draught_proofed": 75,
+        "number_of_sides_sheltered": 3,
+        "ventilation_type": "NV",
+        "ventilation_tag": "VS_01_1",
+        "ventilation_name": "Natural Ventilation NV",
+        "IVF": [
+            {
+                "name": "Wood Burning Stove with Flue",
+                "source": "SAP",
+                "type": "Open Flue",
+                "ventilation_rate": 20,
+                "tag": "IV_04",
+                "id": 1,
+                "location": "diningroom"
+            }
+        ],
+        "EVP": [
+            {
+                "name": "Individual Intermittent Extract Fan",
+                "location": "Kitchen",
+                "type": "Intermittent fan",
+                "ventilation_rate": 10,
+                "tag": "EV_01",
+                "id": 1
+            },
+            {
+                "name": "Individual Intermittent Extract Fan",
+                "location": "Bathroom",
+                "type": "Intermittent fan",
+                "ventilation_rate": 10,
+                "tag": "EV_01",
+                "id": 2
+            }
+        ],
+        "CDF": [
+            {
+                "name": "Clothes Drying Cupboard",
+                "description": "",
+                "cost_units": "unit",
+                "cost": 400,
+                "tag": "LD_01",
+                "id": 1
+            }
+        ],
+        "name": "Natural ventilation"
+    },
+    "LAC": {
+        "LLE": 16,
+        "L": 16,
+        "energy_efficient_cooking": false,
+        "energy_efficient_appliances": false,
+        "reduced_heat_gains_lighting": false,
+        "fuels_lighting": [
+            {
+                "fuel": "Green Tariff",
+                "fraction": 1,
+                "system_efficiency": 1
+            }
+        ],
+        "fuels_cooking": [
+            {
+                "fuel": "Standard Tariff",
+                "fraction": 1,
+                "system_efficiency": 1
+            }
+        ],
+        "fuels_appliances": [
+            {
+                "fuel": "Standard Tariff",
+                "fraction": 1,
+                "system_efficiency": 1
+            }
+        ]
+    },
+    "LAC_calculation_type": "SAP",
+    "water_heating": {
+        "low_water_use_design": 1,
+        "solar_water_heating": false,
+        "pipework_insulation": "All accesible piperwok insulated",
+        "storage_type": {
+            "category": "Cylinders",
+            "name": "Cylinder 150L 50mm factory fitted foam insulation",
+            "description": "",
+            "manufacturer_loss_factor": 0,
+            "temperature_factor_a": 0,
+            "storage_volume": 150,
+            "loss_factor_b": 0.0100,
+            "volume_factor_b": 1,
+            "temperature_factor_b": 0.6,
+            "declared_loss_factor_known": false,
+            "cost_units": "unit",
+            "cost": 500,
+            "tag": "HWS2"
+        },
+        "hot_water_store_in_dwelling": 1,
+        "contains_dedicated_solar_storage_or_WWHRS": 0,
+        "hot_water_control_type": "Cylinder thermostat, water heating separately timed",
+        "Vc": 0,
+        "water_usage": [
+            {
+                "name": "Standard Water Use",
+                "source": "",
+                "description": "",
+                "performance": "",
+                "benefits": "",
+                "cost_units": "unit",
+                "cost": "0",
+                "who_by": "",
+                "disruption": "",
+                "associated_work": "",
+                "key_risks": "",
+                "notes": "",
+                "maintenance": "",
+                "tag": "HW_01",
+                "id": 1
+            }
+        ]
+    },
+    "fans_and_pumps": [
+        {
+            "fuel": "Green Tariff",
+            "fraction": 1,
+            "demand": 176,
+            "fuel_input": 176
+        }
+    ],
+    "applianceCarbonCoop": {
+        "list": [
+            {
+                "category": "Computing",
+                "name": "Laptop",
+                "number_used": 2,
+                "a_plus_rated": false,
+                "norm_demand": 29,
+                "units": "kWh",
+                "utilisation_factor": 1,
+                "frequency": 1,
+                "reference_quantity": 1,
+                "type_of_fuel": "Electricity",
+                "efficiency": 1,
+                "fuel": "Green Tariff",
+                "energy_demand": 58,
+                "fuel_input": 58
+            },
+            {
+                "category": "Cooking",
+                "name": "electric hob, electric oven induction",
+                "number_used": 1,
+                "a_plus_rated": false,
+                "norm_demand": 0.2,
+                "units": "kWh per use",
+                "utilisation_factor": 1,
+                "frequency": 500,
+                "reference_quantity": 3,
+                "type_of_fuel": "Electricity",
+                "efficiency": 1,
+                "fuel": "Green Tariff",
+                "energy_demand": 300.00000000000006,
+                "fuel_input": 300.00000000000006
+            },
+            {
+                "category": "Food storage",
+                "name": "Fridge/Freezer",
+                "number_used": 1,
+                "a_plus_rated": false,
+                "norm_demand": 1.16,
+                "units": "kWh per day",
+                "utilisation_factor": 1,
+                "frequency": 365,
+                "reference_quantity": 1,
+                "type_of_fuel": "Electricity",
+                "efficiency": 1,
+                "fuel": "Green Tariff",
+                "energy_demand": 423.4,
+                "fuel_input": 423.4
+            },
+            {
+                "category": "Laundry",
+                "name": "Clothes washing - cold feed",
+                "number_used": 1,
+                "a_plus_rated": 1,
+                "norm_demand": 1.1,
+                "units": "kWh per use",
+                "utilisation_factor": 1,
+                "frequency": 55,
+                "reference_quantity": 3,
+                "type_of_fuel": "Electricity",
+                "efficiency": 1,
+                "fuel": "Green Tariff",
+                "energy_demand": 136.12500000000003,
+                "fuel_input": 136.12500000000003
+            },
+            {
+                "category": "Miscelanea",
+                "name": "Small Consumer Electronics",
+                "number_used": 1,
+                "a_plus_rated": false,
+                "norm_demand": 0.08,
+                "units": "kW",
+                "utilisation_factor": 1,
+                "frequency": 550,
+                "reference_quantity": 3,
+                "type_of_fuel": "Electricity",
+                "efficiency": 1,
+                "fuel": "Green Tariff",
+                "energy_demand": 132,
+                "fuel_input": 132
+            },
+            {
+                "category": "Cooking",
+                "name": "microwave",
+                "number_used": 1,
+                "a_plus_rated": false,
+                "norm_demand": 14,
+                "units": "kWh",
+                "utilisation_factor": 1,
+                "frequency": 1,
+                "reference_quantity": 3,
+                "type_of_fuel": "Electricity",
+                "efficiency": 1,
+                "fuel": "Green Tariff",
+                "energy_demand": 42,
+                "fuel_input": 42
+            },
+            {
+                "category": "Other kitchen / cleaning",
+                "name": "electric kettle",
+                "number_used": 1,
+                "a_plus_rated": false,
+                "norm_demand": 20,
+                "units": "kWh",
+                "utilisation_factor": 1,
+                "frequency": 1,
+                "reference_quantity": 3,
+                "type_of_fuel": "Electricity",
+                "efficiency": 1,
+                "fuel": "Green Tariff",
+                "energy_demand": 60,
+                "fuel_input": 60
+            }
+        ]
+    },
+    "temperature": {
+        "responsiveness": 1,
+        "target": 21.0,
+        "living_area": 24.4,
+        "temperature_adjustment": 0,
+        "hours_off": {
+            "weekday": [
+                7,
+                8
+            ],
+            "weekend": [
+                8
+            ]
+        }
+    },
+    "space_heating": {
+        "use_utilfactor_forgains": true,
+        "heating_off_summer": 1
+    },
+    "heating_systems": [
+        {
+            "category": "Warm air systems",
+            "name": "Air-source heat pump, high performance SPFH4: 3.0",
+            "description": "",
+            "winter_efficiency": 300,
+            "summer_efficiency": 300,
+            "central_heating_pump": 0,
+            "fans_and_supply_pumps": null,
+            "responsiveness": 1,
+            "primary_circuit_loss": "Yes",
+            "tag": "ASHP1",
+            "id": 4,
+            "fuel": "Green Tariff",
+            "fraction_space": 0.9,
+            "fraction_water_heating": 1,
+            "main_space_heating_system": "mainHS1",
+            "temperature_adjustment": 0,
+            "provides": "heating_and_water",
+            "instantaneous_water_heating": false,
+            "heating_controls": 1,
+            "efficiency": 3
+        },
+        {
+            "name": "Modern efficient stove burning sold fuel",
+            "category": "Warm air systems",
+            "winter_efficiency": 80,
+            "summer_efficiency": 0,
+            "central_heating_pump": 0,
+            "fans_and_supply_pumps": null,
+            "responsiveness": 0.5,
+            "combi_loss": 0,
+            "primary_circuit_loss": "No",
+            "tag": "ROMHT10",
+            "id": 5,
+            "fuel": "Wood Logs",
+            "fraction_space": 0.1,
+            "fraction_water_heating": 1,
+            "main_space_heating_system": "secondaryHS",
+            "temperature_adjustment": 0,
+            "provides": "heating",
+            "instantaneous_water_heating": false,
+            "heating_controls": 1,
+            "efficiency": 0
+        }
+    ],
+    "fuels": {
+        "Green Tariff": {
+            "standingcharge": 27,
+            "fuelcost": 12.5,
+            "co2factor": 0.0,
+            "primaryenergyfactor": 1.5,
+            "SAP_code": 30,
+            "source": "Custom",
+            "category": "Electricity"
+        },
+        "Wood Logs": {
+            "standingcharge": 0,
+            "fuelcost": 4.23,
+            "co2factor": 0.0,
+            "primaryenergyfactor": 1.0,
+            "SAP_code": 20,
+            "source": "SAP Table 12",
+            "category": "Solid fuel"
+        }
+    },
+    "imagegallery": [],
+    "measures": {
+        "ventilation": {},
+        "water_heating": {},
+        "space_heating": {}
+    },
+    "num_of_floors": 2,
+    "occupancy": 2
+}

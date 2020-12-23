@@ -1,6 +1,8 @@
 start = 1577836800000
 end = 1612137600000
 
+var sap = calc.run(midterrace);
+
 //localStorage.removeItem("config");
 var config = JSON.parse(localStorage.getItem("config"))
 
@@ -177,6 +179,16 @@ function calculate() {
         config["Heat Loss Factor Calculation"].calculated["Delta T"].data[m] = deltaT  
         config["Heat Loss Factor Calculation"].calculated["Heat"].data[m] = total_heat
         config["Heat Loss Factor Calculation"].calculated["Heat Loss Factor"].data[m] = heat_loss_factor
+    }
+
+    config["SAP"] = {
+        calculated: {
+            "external_temperature":{name:"External Temperature" , units:"°C", data: sap.external_temperature},
+            "internal_temperature":{name:"Internal Temperature" , units:"°C", data: sap.internal_temperature},
+            "delta_T":{name:"Delta T" , units:"°K", data: sap.space_heating.delta_T},       
+            "total_heat":{name:"Total Heat" , units:"W", data: sap.space_heating.total_losses},
+            "totalWK_monthly":{name:"Heat Loss Factor" , units:"W/K", data: sap.totalWK_monthly}          
+        }
     }
 }
 
